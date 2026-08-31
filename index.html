@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="id" class="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>GLASS - Top Selling Plants</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Font Google Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          colors: {
+            brand: {
+              dark: '#03140e',
+              surface: '#07251a',
+              card: '#0a3223',
+              accent: '#22c55e',
+              bright: '#10b981',
+              glow: '#00ff87',
+              border: 'rgba(34, 197, 94, 0.2)'
+            }
+          },
+          fontFamily: {
+            sans: ['Outfit', 'sans-serif'],
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      background-color: #03140e;
+      color: #e2e8f0;
+      font-family: 'Outfit', sans-serif;
+      overflow-x: hidden;
+    }
+
+    /* Gradient Latar Belakang & Atmosphere Glow */
+    .bg-atmosphere {
+      background: 
+        radial-gradient(circle at 80% 20%, rgba(16, 185, 129, 0.25) 0%, transparent 45%),
+        radial-gradient(circle at 20% 60%, rgba(34, 197, 94, 0.15) 0%, transparent 50%),
+        radial-gradient(circle at 50% 90%, rgba(6, 78, 59, 0.3) 0%, transparent 60%),
+        #03140e;
+    }
+
+    /* Efek Glassmorphism */
+    .glass-panel {
+      background: rgba(7, 37, 26, 0.65);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(34, 197, 94, 0.18);
+      box-shadow: 0 20px 40px -15px rgba(0, 0, 0, 0.5);
+    }
+
+    .glass-card {
+      background: linear-gradient(180deg, rgba(11, 48, 35, 0.7) 0%, rgba(5, 26, 19, 0.85) 100%);
+      backdrop-filter: blur(12px);
+      border: 1px solid rgba(34, 197, 94, 0.15);
+      transition: all 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+    }
+
+    .glass-card:hover {
+      transform: translateY(-8px);
+      border-color: rgba(34, 197, 94, 0.4);
+      box-shadow: 0 25px 50px -12px rgba(16, 185, 129, 0.25);
+    }
+
+    .glass-pill {
+      background: rgba(16, 185, 129, 0.2);
+      backdrop-filter: blur(8px);
+      border: 1px solid rgba(52, 211, 153, 0.3);
+    }
+
+    /* Custom Scrollbar */
+    ::-webkit-scrollbar {
+      width: 8px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #03140e;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #10b981;
+      border-radius: 4px;
+    }
+
+    /* Neon Glow Text & Shadows */
+    .text-glow {
+      text-shadow: 0 0 20px rgba(34, 197, 94, 0.4);
+    }
+    .shadow-glow {
+      box-shadow: 0 0 25px rgba(34, 197, 94, 0.35);
+    }
+
+    /* Hero Floating Animation */
+    @keyframes float {
+      0%, 100% { transform: translateY(0px) rotate(0deg); }
+      50% { transform: translateY(-12px) rotate(1deg); }
+    }
+    .animate-float {
+      animation: float 6s ease-in-out infinite;
+    }
+  </style>
+</head>
+<body class="bg-atmosphere min-h-screen text-slate-100 flex flex-col justify-between selection:bg-emerald-500 selection:text-slate-950">
+
+  <!-- ================= NAVBAR ================= -->
+  <header class="sticky top-0 z-50 w-full px-4 sm:px-8 lg:px-16 py-4 transition-all duration-300" id="mainHeader">
+    <div class="max-w-7xl mx-auto glass-panel rounded-full px-6 py-3 flex items-center justify-between">
+      
+      <!-- Brand Logo -->
+      <a href="#" class="flex items-center gap-2 group">
+        <span class="text-2xl font-extrabold tracking-widest text-white group-hover:text-emerald-400 transition-colors">
+          GLASS
+        </span>
+        <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span>
+      </a>
+
+      <!-- Menu Navigation -->
+      <nav class="hidden md:flex items-center gap-8 text-sm font-medium text-slate-300">
+        <a href="#" class="text-emerald-400 font-semibold hover:text-emerald-300 transition-colors">Beranda</a>
+        <a href="#about" class="hover:text-emerald-400 transition-colors">Tentang Kami</a>
+        <a href="#products" class="hover:text-emerald-400 transition-colors">Koleksi Tanaman</a>
+        <a href="#categories" class="hover:text-emerald-400 transition-colors">Kategori</a>
+        <a href="#contact" class="hover:text-emerald-400 transition-colors">Kontak</a>
+      </nav>
+
+      <!-- Right Action & Icons -->
+      <div class="flex items-center gap-4">
+        <button onclick="toggleSearch()" class="p-2 text-slate-300 hover:text-emerald-400 transition-colors rounded-full hover:bg-emerald-950/50" title="Cari">
+          <i data-lucide="search" class="w-5 h-5"></i>
+        </button>
+
+        <div class="relative">
+          <button onclick="toggleCart()" class="p-2 text-slate-300 hover:text-emerald-400 transition-colors rounded-full hover:bg-emerald-950/50" title="Keranjang">
+            <i data-lucide="shopping-bag" class="w-5 h-5"></i>
+            <span id="cartCount" class="absolute -top-1 -right-1 bg-emerald-500 text-xs text-slate-950 font-bold w-5 h-5 rounded-full flex items-center justify-center">0</span>
+          </button>
+        </div>
+
+        <a href="#products" class="hidden sm:inline-flex items-center gap-2 bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold text-xs uppercase tracking-wider px-5 py-2.5 rounded-full transition-all duration-300 shadow-glow hover:scale-105">
+          <span>Beli Sekarang</span>
+        </a>
+
+        <!-- Mobile Menu Button -->
+        <button onclick="toggleMobileMenu()" class="md:hidden p-2 text-slate-300 hover:text-emerald-400">
+          <i data-lucide="menu" class="w-6 h-6"></i>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Mobile Menu Drawer -->
+  <div id="mobileMenu" class="fixed inset-0 bg-slate-950/90 backdrop-blur-lg z-40 hidden flex-col justify-center items-center gap-6 text-xl font-medium text-slate-200">
+    <button onclick="toggleMobileMenu()" class="absolute top-6 right-8 text-slate-400 hover:text-white">
+      <i data-lucide="x" class="w-8 h-8"></i>
+    </button>
+    <a href="#" onclick="toggleMobileMenu()" class="text-emerald-400 font-bold">Beranda</a>
+    <a href="#about" onclick="toggleMobileMenu()" class="hover:text-emerald-400">Tentang Kami</a>
+    <a href="#products" onclick="toggleMobileMenu()" class="hover:text-emerald-400">Koleksi Tanaman</a>
+    <a href="#categories" onclick="toggleMobileMenu()" class="hover:text-emerald-400">Kategori</a>
+    <a href="#contact" onclick="toggleMobileMenu()" class="hover:text-emerald-400">Kontak</a>
+  </div>
+
+  <main class="max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-6 pb-20 w-full space-y-24">
+
+    <!-- ================= HERO SECTION ================= -->
+    <section class="relative min-h-[580px] rounded-3xl glass-panel p-6 sm:p-10 lg:p-14 overflow-hidden flex flex-col justify-center">
+      
+      <!-- Background Ambient Glow behind Hero -->
+      <div class="absolute -right-20 -top-20 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl pointer-events-none"></div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 items-center relative z-10">
+        
+        <!-- Hero Left Text Content -->
+        <div class="lg:col-span-7 space-y-6 text-left">
+          
+          <h1 class="text-4xl sm:text-5xl lg:text-6xl font-extrabold tracking-tight text-white leading-tight">
+            Top Selling <br />
+            <span class="text-emerald-400 text-glow">Plant.s</span>
+          </h1>
+
+          <p class="text-slate-300 text-sm sm:text-base max-w-md font-light leading-relaxed">
+            Crafting Natural Harmony: Personal Oasis With Our Curated Your Curated Plant Art.
+            <span class="block mt-1 text-slate-400 text-xs sm:text-sm">Menciptakan ruang hijau impian dengan koleksi tanaman hias premium terlengkap.</span>
+          </p>
+
+          <!-- Interactive Action Controls (Arrow + Pill) -->
+          <div class="flex items-center gap-3 pt-2">
+            <button onclick="prevHeroSlide()" class="w-10 h-10 rounded-full glass-pill flex items-center justify-center text-slate-300 hover:text-emerald-400 hover:border-emerald-400 transition-all">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i>
+            </button>
+
+            <a href="#products" class="glass-pill px-6 py-2.5 rounded-full text-emerald-300 hover:text-slate-950 hover:bg-emerald-400 font-medium text-xs sm:text-sm tracking-wide transition-all duration-300 flex items-center gap-2 shadow-lg">
+              <span>Discover More</span>
+            </a>
+
+            <button onclick="nextHeroSlide()" class="w-10 h-10 rounded-full glass-pill flex items-center justify-center text-slate-300 hover:text-emerald-400 hover:border-emerald-400 transition-all">
+              <i data-lucide="arrow-right" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <!-- Rating Stars Component -->
+          <div class="pt-4 space-y-2">
+            <div class="flex items-center gap-1.5 text-amber-400">
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <i data-lucide="star" class="w-4 h-4 fill-amber-400"></i>
+              <span class="text-slate-300 text-xs font-semibold ml-2">5.0 (2,400+ Review)</span>
+            </div>
+            
+            <!-- Social Icons / Micro Badges -->
+            <div class="flex items-center gap-4 text-slate-400 text-xs pt-1">
+              <span class="flex items-center gap-1 hover:text-emerald-400 cursor-pointer">
+                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-400"></i> Garansi Segar
+              </span>
+              <span class="flex items-center gap-1 hover:text-emerald-400 cursor-pointer">
+                <i data-lucide="truck" class="w-4 h-4 text-emerald-400"></i> Gratis Ongkir
+              </span>
+              <span class="flex items-center gap-1 hover:text-emerald-400 cursor-pointer">
+                <i data-lucide="leaf" class="w-4 h-4 text-emerald-400"></i> Organik
+              </span>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Hero Right Plant Image Visual -->
+        <div class="lg:col-span-5 flex justify-center items-center relative">
+          <!-- Atmosphere Shadow floor -->
+          <div class="absolute bottom-4 w-3/4 h-8 bg-black/60 rounded-full blur-xl transform scale-y-50"></div>
+          
+          <div class="relative z-10 animate-float max-w-sm sm:max-w-md">
+            <img 
+              id="heroPlantImage"
+              src="https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80" 
+              alt="Tanaman Hias Utama" 
+              class="w-full h-auto object-contain drop-shadow-[0_35px_35px_rgba(0,0,0,0.7)] transition-all duration-500 rounded-2xl"
+            />
+          </div>
+
+          <!-- Floating Accent Glass Badge -->
+          <div class="absolute bottom-6 right-2 glass-pill px-4 py-2 rounded-2xl border border-emerald-500/30 text-xs flex items-center gap-2 backdrop-blur-md shadow-2xl">
+            <div class="w-8 h-8 rounded-full bg-emerald-500/30 flex items-center justify-center text-emerald-400">
+              <i data-lucide="sparkles" class="w-4 h-4"></i>
+            </div>
+            <div>
+              <p class="font-bold text-slate-100">Monstera Deliciosa</p>
+              <p class="text-emerald-400 text-[10px]">Pilihan Populer Hari Ini</p>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= PRODUCTS SECTION ================= -->
+    <section id="products" class="space-y-8">
+      
+      <!-- Section Title & Subtitle -->
+      <div class="text-center space-y-3 max-w-2xl mx-auto">
+        <span class="text-xs uppercase tracking-widest text-emerald-400 font-bold glass-pill px-4 py-1.5 rounded-full">Indoor Collection</span>
+        <h2 class="text-3xl sm:text-4xl font-extrabold text-white tracking-tight">
+          Indoor Plants
+        </h2>
+        <p class="text-slate-400 text-xs sm:text-sm leading-relaxed">
+          Pilihan tanaman hijau terbaik untuk mempercantik dan memberikan nuansa alami yang menenangkan di dalam ruangan Anda.
+        </p>
+      </div>
+
+      <!-- Filter Buttons -->
+      <div id="categories" class="flex flex-wrap items-center justify-center gap-2 sm:gap-4 pb-2">
+        <button onclick="filterCategory('all')" class="cat-btn active glass-pill px-5 py-2 rounded-full text-xs sm:text-sm font-medium text-emerald-300 border-emerald-400 bg-emerald-500/20">Semua</button>
+        <button onclick="filterCategory('indoor')" class="cat-btn glass-pill px-5 py-2 rounded-full text-xs sm:text-sm font-medium text-slate-300 hover:text-emerald-300 hover:border-emerald-500/30">Indoor</button>
+        <button onclick="filterCategory('desk')" class="cat-btn glass-pill px-5 py-2 rounded-full text-xs sm:text-sm font-medium text-slate-300 hover:text-emerald-300 hover:border-emerald-500/30">Meja Kerja</button>
+        <button onclick="filterCategory('air')" class="cat-btn glass-pill px-5 py-2 rounded-full text-xs sm:text-sm font-medium text-slate-300 hover:text-emerald-300 hover:border-emerald-500/30">Pemurni Udara</button>
+      </div>
+
+      <!-- Product Cards Grid (2 rows x 3 cols = 6 cards) -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 sm:gap-8">
+        
+        <!-- CARD 1 -->
+        <div class="glass-card rounded-3xl p-5 flex flex-col justify-between group relative overflow-hidden" data-category="indoor air">
+          <div class="relative w-full h-56 rounded-2xl overflow-hidden bg-emerald-950/40 flex items-center justify-center p-4">
+            <img 
+              src="https://images.unsplash.com/photo-1592150621744-aca64f48394a?auto=format&fit=crop&w=600&q=80" 
+              alt="Areca Palm" 
+              class="h-full object-contain group-hover:scale-110 transition-transform duration-500"
+            />
+            <button onclick="addToCart('Areca Palm', '$119')" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-emerald-900/60 hover:bg-emerald-500 hover:text-slate-950 text-emerald-300 flex items-center justify-center transition-all border border-emerald-500/30" title="Tambah ke keranjang">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="mt-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-lg text-white group-hover:text-emerald-300 transition-colors">Areca Palm</h3>
+              <div class="flex items-center gap-1 text-amber-400 text-xs">
+                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                <span>4.8</span>
+              </div>
+            </div>
+            
+            <p class="text-slate-400 text-xs line-clamp-2">Tanaman palem indah penyaring udara alami yang memberikan kesegaran tropis.</p>
+
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-lg font-extrabold text-emerald-400">$119</span>
+              <button onclick="addToCart('Areca Palm', '$119')" class="p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 transition-colors">
+                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2 -->
+        <div class="glass-card rounded-3xl p-5 flex flex-col justify-between group relative overflow-hidden" data-category="indoor desk">
+          <div class="relative w-full h-56 rounded-2xl overflow-hidden bg-emerald-950/40 flex items-center justify-center p-4">
+            <img 
+              src="https://images.unsplash.com/photo-1617173944883-6ffbd35d584d?auto=format&fit=crop&w=600&q=80" 
+              alt="Calathea Velvet" 
+              class="h-full object-contain group-hover:scale-110 transition-transform duration-500"
+            />
+            <button onclick="addToCart('Calathea Velvet', '$140')" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-emerald-900/60 hover:bg-emerald-500 hover:text-slate-950 text-emerald-300 flex items-center justify-center transition-all border border-emerald-500/30">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="mt-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-lg text-white group-hover:text-emerald-300 transition-colors">Calathea Velvet</h3>
+              <div class="flex items-center gap-1 text-amber-400 text-xs">
+                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                <span>4.9</span>
+              </div>
+            </div>
+            
+            <p class="text-slate-400 text-xs line-clamp-2">Daun bercorak artistik unik yang ideal diletakkan di sudut ruang keluarga.</p>
+
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-lg font-extrabold text-emerald-400">$140</span>
+              <button onclick="addToCart('Calathea Velvet', '$140')" class="p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 transition-colors">
+                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3 -->
+        <div class="glass-card rounded-3xl p-5 flex flex-col justify-between group relative overflow-hidden" data-category="air desk">
+          <div class="relative w-full h-56 rounded-2xl overflow-hidden bg-emerald-950/40 flex items-center justify-center p-4">
+            <img 
+              src="https://images.unsplash.com/photo-1512428559087-560fa5ceab42?auto=format&fit=crop&w=600&q=80" 
+              alt="Devil's Ivy" 
+              class="h-full object-contain group-hover:scale-110 transition-transform duration-500"
+            />
+            <button onclick="addToCart('Devil\'s Ivy', '$149')" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-emerald-900/60 hover:bg-emerald-500 hover:text-slate-950 text-emerald-300 flex items-center justify-center transition-all border border-emerald-500/30">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="mt-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-lg text-white group-hover:text-emerald-300 transition-colors">Devil's Ivy</h3>
+              <div class="flex items-center gap-1 text-amber-400 text-xs">
+                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                <span>4.7</span>
+              </div>
+            </div>
+            
+            <p class="text-slate-400 text-xs line-clamp-2">Sirih gading menjuntai indah, sangat gampang dirawat bagi pemula.</p>
+
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-lg font-extrabold text-emerald-400">$149</span>
+              <button onclick="addToCart('Devil\'s Ivy', '$149')" class="p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 transition-colors">
+                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 4 -->
+        <div class="glass-card rounded-3xl p-5 flex flex-col justify-between group relative overflow-hidden" data-category="desk indoor">
+          <div class="relative w-full h-56 rounded-2xl overflow-hidden bg-emerald-950/40 flex items-center justify-center p-4">
+            <img 
+              src="https://images.unsplash.com/photo-1598880940371-c756e015fea1?auto=format&fit=crop&w=600&q=80" 
+              alt="Parlor Palm" 
+              class="h-full object-contain group-hover:scale-110 transition-transform duration-500"
+            />
+            <button onclick="addToCart('Parlor Palm', '$72')" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-emerald-900/60 hover:bg-emerald-500 hover:text-slate-950 text-emerald-300 flex items-center justify-center transition-all border border-emerald-500/30">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="mt-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-lg text-white group-hover:text-emerald-300 transition-colors">Parlor Palm</h3>
+              <div class="flex items-center gap-1 text-amber-400 text-xs">
+                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                <span>4.6</span>
+              </div>
+            </div>
+            
+            <p class="text-slate-400 text-xs line-clamp-2">Palem kerdil elegan untuk meja kantor atau kamar tidur Anda.</p>
+
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-lg font-extrabold text-emerald-400">$72</span>
+              <button onclick="addToCart('Parlor Palm', '$72')" class="p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 transition-colors">
+                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 5 (HIGHLIGHTED: ZZ Elegance) -->
+        <div class="glass-card rounded-3xl p-5 flex flex-col justify-between group relative overflow-hidden border border-emerald-500/40 shadow-glow" data-category="air indoor">
+          
+          <span class="absolute top-3 left-3 bg-emerald-500 text-slate-950 font-bold text-[10px] uppercase tracking-wider px-2.5 py-1 rounded-full z-10">Best Seller</span>
+
+          <div class="relative w-full h-56 rounded-2xl overflow-hidden bg-emerald-950/60 flex items-center justify-center p-4">
+            <img 
+              src="https://images.unsplash.com/photo-1632207691143-643e2a9a9361?auto=format&fit=crop&w=600&q=80" 
+              alt="ZZ Elegance" 
+              class="h-full object-contain group-hover:scale-110 transition-transform duration-500"
+            />
+            <button onclick="addToCart('ZZ Elegance', '$150')" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-emerald-900/80 hover:bg-emerald-500 hover:text-slate-950 text-emerald-300 flex items-center justify-center transition-all border border-emerald-500/40">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="mt-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-lg text-emerald-300">ZZ Elegance</h3>
+              <div class="flex items-center gap-1 text-amber-400 text-xs">
+                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                <span>5.0</span>
+              </div>
+            </div>
+            
+            <p class="text-slate-400 text-xs line-clamp-2">Daun mengilap yang tahan minim cahaya dan sangat minim perawatan.</p>
+
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-lg font-extrabold text-emerald-400">$150</span>
+              <button onclick="addToCart('ZZ Elegance', '$150')" class="p-2 rounded-xl bg-emerald-500 text-slate-950 font-bold hover:bg-emerald-400 transition-colors">
+                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 6 -->
+        <div class="glass-card rounded-3xl p-5 flex flex-col justify-between group relative overflow-hidden" data-category="indoor air">
+          <div class="relative w-full h-56 rounded-2xl overflow-hidden bg-emerald-950/40 flex items-center justify-center p-4">
+            <img 
+              src="https://images.unsplash.com/photo-1509423350716-97f9360b4e09?auto=format&fit=crop&w=600&q=80" 
+              alt="Ficus Elegance" 
+              class="h-full object-contain group-hover:scale-110 transition-transform duration-500"
+            />
+            <button onclick="addToCart('Ficus Elegance', '$139')" class="absolute top-3 right-3 w-9 h-9 rounded-full bg-emerald-900/60 hover:bg-emerald-500 hover:text-slate-950 text-emerald-300 flex items-center justify-center transition-all border border-emerald-500/30">
+              <i data-lucide="plus" class="w-4 h-4"></i>
+            </button>
+          </div>
+
+          <div class="mt-4 space-y-2">
+            <div class="flex items-center justify-between">
+              <h3 class="font-bold text-lg text-white group-hover:text-emerald-300 transition-colors">Ficus Elegance</h3>
+              <div class="flex items-center gap-1 text-amber-400 text-xs">
+                <i data-lucide="star" class="w-3.5 h-3.5 fill-amber-400"></i>
+                <span>4.8</span>
+              </div>
+            </div>
+            
+            <p class="text-slate-400 text-xs line-clamp-2">Pilihan populer dengan struktur batang kokoh dan daun hijau pekat.</p>
+
+            <div class="flex items-center justify-between pt-2">
+              <span class="text-lg font-extrabold text-emerald-400">$139</span>
+              <button onclick="addToCart('Ficus Elegance', '$139')" class="p-2 rounded-xl bg-emerald-500/10 hover:bg-emerald-500 text-emerald-400 hover:text-slate-950 transition-colors">
+                <i data-lucide="shopping-cart" class="w-4 h-4"></i>
+              </button>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ================= ABOUT / FEATURE BANNER ================= -->
+    <section id="about" class="glass-panel rounded-3xl p-8 sm:p-12 relative overflow-hidden">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center md:text-left">
+        <div class="flex items-center gap-4 p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/10">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <i data-lucide="sprout" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-white text-sm sm:text-base">Kualitas Terjamin</h4>
+            <p class="text-slate-400 text-xs">Dipilih langsung dari kebun tanaman hias organik terbaik.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4 p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/10">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <i data-lucide="package-check" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-white text-sm sm:text-base">Kemasan Aman</h4>
+            <p class="text-slate-400 text-xs">Pengiriman menggunakan pot khusus anti goyang & rusak.</p>
+          </div>
+        </div>
+
+        <div class="flex items-center gap-4 p-4 rounded-2xl bg-emerald-950/30 border border-emerald-500/10">
+          <div class="w-12 h-12 rounded-2xl bg-emerald-500/20 text-emerald-400 flex items-center justify-center shrink-0">
+            <i data-lucide="headset" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <h4 class="font-bold text-white text-sm sm:text-base">Konsultasi Gratis</h4>
+            <p class="text-slate-400 text-xs">Bimbingan tata cara perawatan tanaman dari pakar kami.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- ================= FOOTER ================= -->
+  <footer id="contact" class="border-t border-emerald-500/20 bg-slate-950/80 backdrop-blur-md pt-12 pb-8">
+    <div class="max-w-7xl mx-auto px-6 sm:px-8 lg:px-12 grid grid-cols-1 md:grid-cols-4 gap-8 mb-12">
+      
+      <div class="space-y-4">
+        <a href="#" class="text-2xl font-extrabold tracking-widest text-white">GLASS</a>
+        <p class="text-slate-400 text-xs leading-relaxed">
+          Platform terpercaya untuk keindahan interior rumah Anda melalui berbagai tanaman hias pilihan berkualitas tinggi.
+        </p>
+      </div>
+
+      <div>
+        <h5 class="text-white font-bold text-sm mb-4">Navigasi</h5>
+        <ul class="space-y-2 text-xs text-slate-400">
+          <li><a href="#" class="hover:text-emerald-400 transition-colors">Beranda</a></li>
+          <li><a href="#about" class="hover:text-emerald-400 transition-colors">Tentang Kami</a></li>
+          <li><a href="#products" class="hover:text-emerald-400 transition-colors">Produk Populer</a></li>
+          <li><a href="#categories" class="hover:text-emerald-400 transition-colors">Kategori</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="text-white font-bold text-sm mb-4">Bantuan</h5>
+        <ul class="space-y-2 text-xs text-slate-400">
+          <li><a href="#" class="hover:text-emerald-400 transition-colors">Panduan Perawatan</a></li>
+          <li><a href="#" class="hover:text-emerald-400 transition-colors">Pengiriman & Retur</a></li>
+          <li><a href="#" class="hover:text-emerald-400 transition-colors">Syarat & Ketentuan</a></li>
+          <li><a href="#" class="hover:text-emerald-400 transition-colors">Kebijakan Privasi</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h5 class="text-white font-bold text-sm mb-4">Berlangganan Newsletter</h5>
+        <p class="text-xs text-slate-400 mb-3">Dapatkan diskon 15% untuk pembelian pertama Anda.</p>
+        <div class="flex items-center gap-2">
+          <input type="email" placeholder="Email Anda..." class="bg-emerald-950/50 border border-emerald-500/30 text-xs px-3 py-2 rounded-lg text-slate-200 focus:outline-none focus:border-emerald-400 w-full" />
+          <button onclick="showToast('Terima kasih telah berlangganan!')" class="bg-emerald-500 hover:bg-emerald-400 text-slate-950 font-bold px-3 py-2 rounded-lg text-xs transition-colors">Kirim</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="max-w-7xl mx-auto px-6 border-t border-emerald-900/50 pt-6 flex flex-col sm:flex-row items-center justify-between text-xs text-slate-500 gap-4">
+      <p>© 2026 GLASS Plant Shop. Hak Cipta Dilindungi.</p>
+      <div class="flex items-center gap-4">
+        <a href="#" class="hover:text-emerald-400"><i data-lucide="instagram" class="w-4 h-4"></i></a>
+        <a href="#" class="hover:text-emerald-400"><i data-lucide="facebook" class="w-4 h-4"></i></a>
+        <a href="#" class="hover:text-emerald-400"><i data-lucide="twitter" class="w-4 h-4"></i></a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ================= TOAST NOTIFICATION ================= -->
+  <div id="toast" class="fixed bottom-6 right-6 bg-emerald-500 text-slate-950 px-5 py-3 rounded-2xl font-bold text-sm shadow-2xl flex items-center gap-3 transform translate-y-20 opacity-0 transition-all duration-300 z-50 pointer-events-none">
+    <i data-lucide="check-circle" class="w-5 h-5"></i>
+    <span id="toastMsg">Produk ditambahkan ke keranjang!</span>
+  </div>
+
+  <!-- ================= JAVASCRIPT ================= -->
+  <script>
+    // Inisialisasi Ikon Lucide
+    lucide.createIcons();
+
+    let cartCount = 0;
+    
+    // Data Slide Hero
+    const heroPlants = [
+      "https://images.unsplash.com/photo-1614594975525-e45190c55d0b?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1545241047-6083a3684587?auto=format&fit=crop&w=800&q=80",
+      "https://images.unsplash.com/photo-1632207691143-643e2a9a9361?auto=format&fit=crop&w=800&q=80"
+    ];
+    let currentHeroIdx = 0;
+
+    function nextHeroSlide() {
+      currentHeroIdx = (currentHeroIdx + 1) % heroPlants.length;
+      updateHeroImg();
+    }
+
+    function prevHeroSlide() {
+      currentHeroIdx = (currentHeroIdx - 1 + heroPlants.length) % heroPlants.length;
+      updateHeroImg();
+    }
+
+    function updateHeroImg() {
+      const img = document.getElementById('heroPlantImage');
+      img.style.opacity = '0';
+      img.style.transform = 'scale(0.9)';
+      setTimeout(() => {
+        img.src = heroPlants[currentHeroIdx];
+        img.style.opacity = '1';
+        img.style.transform = 'scale(1)';
+      }, 250);
+    }
+
+    // Tambah ke keranjang
+    function addToCart(name, price) {
+      cartCount++;
+      document.getElementById('cartCount').innerText = cartCount;
+      showToast(`${name} (${price}) ditambahkan ke keranjang!`);
+    }
+
+    // Notifikasi Toast
+    function showToast(msg) {
+      const toast = document.getElementById('toast');
+      const toastMsg = document.getElementById('toastMsg');
+      toastMsg.innerText = msg;
+      toast.classList.remove('translate-y-20', 'opacity-0');
+      toast.classList.add('translate-y-0', 'opacity-100');
+
+      setTimeout(() => {
+        toast.classList.remove('translate-y-0', 'opacity-100');
+        toast.classList.add('translate-y-20', 'opacity-0');
+      }, 3000);
+    }
+
+    // Mobile Menu Toggle
+    function toggleMobileMenu() {
+      const menu = document.getElementById('mobileMenu');
+      menu.classList.toggle('hidden');
+      menu.classList.toggle('flex');
+    }
+
+    // Filter Kategori
+    function filterCategory(cat) {
+      const buttons = document.querySelectorAll('.cat-btn');
+      buttons.forEach(btn => {
+        btn.classList.remove('bg-emerald-500/20', 'text-emerald-300', 'border-emerald-400');
+        btn.classList.add('text-slate-300');
+      });
+
+      event.target.classList.add('bg-emerald-500/20', 'text-emerald-300', 'border-emerald-400');
+
+      const cards = document.querySelectorAll('[data-category]');
+      cards.forEach(card => {
+        const categories = card.getAttribute('data-category');
+        if (cat === 'all' || categories.includes(cat)) {
+          card.style.display = 'flex';
+        } else {
+          card.style.display = 'none';
+        }
+      });
+    }
+
+    function toggleSearch() {
+      showToast('Fitur pencarian diaktifkan.');
+    }
+
+    function toggleCart() {
+      showToast(`Keranjang Anda berisi ${cartCount} barang.`);
+    }
+  </script>
+</body>
+</html>
