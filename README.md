@@ -1,1 +1,26 @@
-Last updated: 2026-10-22 13:36:47 WIB
+# PlantShop
+
+
+
+## 📋 Overview
+
+This repository contains **7 files** and is built with the following technologies:
+
+HTML
+
+## 🚀 Quick Start
+
+## ✨ Features
+
+- 📝 Auto-generated documentation
+
+## 🛠️ Technologies
+
+HTML
+
+## 📄 License
+
+MIT License
+
+---
+*Last updated: 2026-10-22 15:56:41 WIB*
